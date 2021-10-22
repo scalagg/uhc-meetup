@@ -1,0 +1,8 @@
+name: uhc-meetup
+version: 1.0.0
+main: gg.scala.meetup.Meetup
+
+author: Scala
+website: https://scala.gg
+
+depend: [Lemon, Cubed, helper]
