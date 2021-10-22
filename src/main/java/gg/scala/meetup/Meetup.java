@@ -1,5 +1,6 @@
 package gg.scala.meetup;
 
+import gg.scala.lemon.Lemon;
 import gg.scala.meetup.chat.MeetupSpectateChannel;
 import gg.scala.meetup.command.*;
 import gg.scala.meetup.handler.*;
@@ -60,7 +61,13 @@ public final class Meetup extends JavaPlugin {
 
         ScoreboardHandler.configure(new ScoreboardProvider());
 
-        // TODO: 10/22/2021 add a more advanced system 
+        Lemon.getInstance().getLocalInstance()
+                .getMetaData().put("game-server", "true");
+
+        Lemon.getInstance().getLocalInstance()
+                .getMetaData().put("game-server-type", "meetup");
+
+        // TODO: 10/22/2021 add a more advanced system
 //        CorePlugin.getInstance().getChatCheckList().add(new MeetupSpectateChannel());
     }
 
