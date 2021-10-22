@@ -1,6 +1,7 @@
 package gg.scala.meetup.handler;
 
 import gg.scala.meetup.Meetup;
+import gg.scala.meetup.game.Game;
 import io.papermc.lib.PaperLib;
 import lombok.Getter;
 import org.bukkit.*;
@@ -27,20 +28,20 @@ public class BorderHandler {
 			Material.SUGAR_CANE_BLOCK, Material.ICE, Material.SNOW);
 
 	public void setBorder(int border) {
-//		final Game game = Meetup.getInstance().getGameHandler().getGame();
-//		final World world = Bukkit.getWorld("meetup_game");
-//
-//		game.setBorder(border);
-//		this.addBedrockBorder(world.getName(), border, 6);
-//
-//		world.getWorldBorder().setCenter(0, 0);
-//		world.getWorldBorder().setSize(border * 2);
-//
-//		if (border == 10) {
-//			game.setBorderTime(-1);
-//		}
-//
-//		this.handlePlayers(world, border);
+		final Game game = Meetup.getInstance().getGameHandler().getGame();
+		final World world = Bukkit.getWorld("meetup_game");
+
+		game.setBorder(border);
+		this.addBedrockBorder(world.getName(), border, 6);
+
+		world.getWorldBorder().setCenter(0, 0);
+		world.getWorldBorder().setSize(border * 2);
+
+		if (border == 10) {
+			game.setBorderTime(-1);
+		}
+
+		this.handlePlayers(world, border);
 	}
 
 	private void handlePlayers(World world, int border) {

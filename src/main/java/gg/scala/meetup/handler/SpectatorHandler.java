@@ -1,13 +1,12 @@
 package gg.scala.meetup.handler;
 
-import com.solexgames.core.CorePlugin;
-import com.solexgames.core.player.PotPlayer;
-import com.solexgames.core.util.builder.ItemBuilder;
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.player.GamePlayer;
-import gg.scala.meetup.util.CC;
+import net.evilblock.cubed.nametag.NametagHandler;
+import net.evilblock.cubed.util.CC;
 import gg.scala.meetup.util.MeetupUtil;
 import io.papermc.lib.PaperLib;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -32,20 +31,20 @@ public class SpectatorHandler {
 
 	public SpectatorHandler() {
 		this.spectateMenuItem = new ItemBuilder(Material.ITEM_FRAME)
-				.setDisplayName(CC.SEC + "Spectate Menu")
-				.addLore(
+				.name(CC.SEC + "Spectate Menu")
+				.addToLore(
 						CC.SEC + "See a list of players",
 						CC.SEC + "that you're able to",
 						CC.SEC + "teleport to and spectate."
 				)
-				.create();
+				.build();
 		this.navigationCompassItem = new ItemBuilder(Material.COMPASS)
-				.setDisplayName(CC.AQUA + "Navigation Compass")
-				.addLore(
+				.name(CC.AQUA + "Navigation Compass")
+				.addToLore(
 						CC.PRI + "Left-Click: " + CC.SEC + "Teleport to the block you're looking at!",
 						CC.PRI + "Right-Click: " + CC.SEC + "Teleport through walls!"
 				)
-				.create();
+				.build() ;
 	}
 
 	public void setSpectator(GamePlayer gamePlayer, String reason, boolean title) {
@@ -73,31 +72,31 @@ public class SpectatorHandler {
 				MeetupUtil.sendTitle(player, CC.B_RED + "DEAD", "You are now a spectator!", 0, 80, 20);
 			}
 
-			Bukkit.getOnlinePlayers().forEach(other -> {
-				final GamePlayer otherPlayer = Meetup.getInstance().getPlayerHandler().getByPlayer(other);
-				final Scoreboard board = Meetup.getInstance().getScoreboardHandler().getAdapter().getScoreboard(other);
-
-				Team ghostTeam = board.getTeam("ghost");
-
-				if (ghostTeam == null) {
-					ghostTeam = board.registerNewTeam("ghost");
-					ghostTeam.setCanSeeFriendlyInvisibles(true);
-				}
-
-				if (!otherPlayer.isSpectating()) {
-					other.hidePlayer(player);
-
-					if (ghostTeam.hasEntry(player.getName())) {
-						ghostTeam.removeEntry(player.getName());
-					}
-				} else {
-					other.showPlayer(player);
-
-					if (!ghostTeam.hasEntry(player.getName())) {
-						ghostTeam.addEntry(player.getName());
-					}
-				}
-			});
+//			Bukkit.getOnlinePlayers().forEach(other -> {
+//				final GamePlayer otherPlayer = Meetup.getInstance().getPlayerHandler().getByPlayer(other);
+//				final Scoreboard board = Meetup.getInstance().getScoreboardHandler().getAdapter().getScoreboard(other);
+//
+//				Team ghostTeam = board.getTeam("ghost");
+//
+//				if (ghostTeam == null) {
+//					ghostTeam = board.registerNewTeam("ghost");
+//					ghostTeam.setCanSeeFriendlyInvisibles(true);
+//				}
+//
+//				if (!otherPlayer.isSpectating()) {
+//					other.hidePlayer(player);
+//
+//					if (ghostTeam.hasEntry(player.getName())) {
+//						ghostTeam.removeEntry(player.getName());
+//					}
+//				} else {
+//					other.showPlayer(player);
+//
+//					if (!ghostTeam.hasEntry(player.getName())) {
+//						ghostTeam.addEntry(player.getName());
+//					}
+//				}
+//			});
 
 			if (reason != null && reason.equals("chose to watch")) {
 				PaperLib.teleportAsync(player, Meetup.getInstance().getGameHandler().getSpawnLocation());
@@ -123,8 +122,7 @@ public class SpectatorHandler {
 
 		PaperLib.teleportAsync(player, gameHandler.getSpawnLocation());
 
-		final PotPlayer potPlayer = CorePlugin.getInstance().getPlayerManager().getPlayer(player);
-		potPlayer.setupPlayerList();
+		NametagHandler.INSTANCE.reloadPlayer(player);
 
 		gamePlayer.getPlayer().sendMessage(CC.SEC + "You are no longer spectating the game.");
 

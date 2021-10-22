@@ -1,6 +1,6 @@
 package gg.scala.meetup.game;
 
-import gg.scala.meetup.util.CC;
+import net.evilblock.cubed.util.CC;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,14 +1,15 @@
 package gg.scala.meetup.menu;
 
-import com.solexgames.core.util.builder.ItemBuilder;
-import com.solexgames.core.util.external.Button;
-import com.solexgames.core.util.external.pagination.PaginatedMenu;
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.player.GamePlayer;
-import gg.scala.meetup.util.CC;
 import io.papermc.lib.PaperLib;
+import net.evilblock.cubed.menu.Button;
+import net.evilblock.cubed.menu.pagination.PaginatedMenu;
+import net.evilblock.cubed.util.CC;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,35 +20,32 @@ import java.util.Map;
  */
 public class SpectateMenu extends PaginatedMenu {
 
-    public SpectateMenu() {
-        super(27);
+    {
+        setAutoUpdate(true);
     }
 
+    @NotNull
     @Override
-    public Map<Integer, Button> getGlobalButtons(Player player) {
-        return null;
-    }
-
-    @Override
-    public String getPrePaginatedTitle(Player player) {
+    public String getPrePaginatedTitle(@NotNull Player player) {
         return "Remaining Players";
     }
 
+    @NotNull
     @Override
-    public Map<Integer, Button> getAllPagesButtons(Player player) {
+    public Map<Integer, Button> getAllPagesButtons(@NotNull Player player) {
         final Map<Integer, Button> buttons = new HashMap<>();
 
         for (GamePlayer gamePlayer : Meetup.getInstance().getGameHandler().getRemaining()) {
             buttons.put(buttons.size(), new ItemBuilder(Material.SKULL_ITEM)
-                    .setDurability(3)
-                    .setDisplayName(gamePlayer.getPlayer().getDisplayName())
-                    .addLore(
+                    .data((short) 3)
+                    .name(gamePlayer.getPlayer().getDisplayName())
+                    .addToLore(
                             CC.GRAY + "Health: " + CC.WHITE + this.fetchFancyPercentage(player.getHealth(), 20),
                             CC.GRAY + "Hunger: " + CC.WHITE + this.fetchFancyPercentage(player.getFoodLevel(), 20),
                             "",
-                            CC.SEC + "[Click to teleport]"
+                            CC.YELLOW + "Click to teleport."
                     )
-                    .setOwner(gamePlayer.getName())
+                    .owner(gamePlayer.getName())
                     .toButton((clicker, clickType) -> {
                         final Player target = gamePlayer.getPlayer();
 
@@ -61,11 +59,6 @@ public class SpectateMenu extends PaginatedMenu {
         }
 
         return buttons;
-    }
-
-    @Override
-    public boolean isAutoUpdate() {
-        return true;
     }
 
     public String fetchFancyPercentage(double amount, int total) {

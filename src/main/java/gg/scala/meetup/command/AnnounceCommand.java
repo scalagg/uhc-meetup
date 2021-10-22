@@ -1,16 +1,18 @@
 package gg.scala.meetup.command;
 
-import com.solexgames.core.CorePlugin;
-import com.solexgames.core.util.RedisUtil;
-import com.solexgames.lib.acf.BaseCommand;
-import com.solexgames.lib.acf.ConditionFailedException;
-import com.solexgames.lib.acf.annotation.CommandAlias;
-import com.solexgames.lib.acf.annotation.CommandPermission;
+import gg.scala.lemon.Lemon;
+import gg.scala.lemon.util.QuickAccess;
+import net.evilblock.cubed.acf.BaseCommand;
+import net.evilblock.cubed.acf.ConditionFailedException;
+import net.evilblock.cubed.acf.annotation.CommandAlias;
+import net.evilblock.cubed.acf.annotation.CommandPermission;
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.game.Game;
 import gg.scala.meetup.game.GameState;
 import gg.scala.meetup.handler.GameHandler;
-import gg.scala.meetup.util.CC;
+import net.evilblock.cubed.util.CC;
+import net.evilblock.cubed.util.bukkit.FancyMessage;
+import net.md_5.bungee.api.chat.ClickEvent;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.bukkit.entity.Player;
 
@@ -42,10 +44,17 @@ public class AnnounceCommand extends BaseCommand {
 
         player.sendMessage(CC.GREEN + "You've announced the game.");
 
-        RedisUtil.publishAsync(RedisUtil.sendClickable(
-                CC.B_PRI + "Alert " + CC.B_GRAY + "» " + player.getDisplayName() + CC.SEC + " wants you to play " + CC.PRI + "UHC Meetup" + CC.SEC + "!" + CC.B_GREEN + " [Join]",
-                CC.SEC + "Click to join " + CC.PRI + CorePlugin.getInstance().getServerName() + CC.SEC + "!\n\n" + CC.B_RED + "Warning: " + CC.RED + "This will switch your server!",
-                "/join " + CorePlugin.getInstance().getServerName()
-        ));
+        final FancyMessage message = new FancyMessage();
+        message.withMessage(CC.B_PRI + "Alert " + CC.B_GRAY + "» " + player.getDisplayName() + CC.SEC + " wants you to play " + CC.PRI + "UHC Meetup" + CC.SEC + "!" + CC.B_GREEN + " [Join]");
+        message.andHoverOf(
+                CC.SEC + "Click to join " + CC.PRI + Lemon.getInstance().getSettings().getId() + CC.SEC + "!",
+                "",
+                CC.B_RED + "Warning: " + CC.RED + "This will switch your server!"
+        );
+        message.andCommandOf(
+                ClickEvent.Action.RUN_COMMAND, "/join " + Lemon.getInstance().getSettings().getId()
+        );
+
+        QuickAccess.sendGlobalFancyBroadcast(message, null);
     }
 }

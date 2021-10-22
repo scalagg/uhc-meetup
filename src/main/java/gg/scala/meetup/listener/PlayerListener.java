@@ -1,13 +1,12 @@
 package gg.scala.meetup.listener;
 
-import com.solexgames.core.CorePlugin;
-import com.solexgames.core.listener.custom.PreDisguiseEvent;
-import com.solexgames.core.util.BungeeUtil;
+import gg.scala.lemon.disguise.update.event.PreDisguiseEvent;
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.game.Game;
 import gg.scala.meetup.game.GameState;
 import gg.scala.meetup.menu.SpectateMenu;
 import gg.scala.meetup.util.MeetupUtil;
+import net.evilblock.cubed.util.bungee.BungeeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -55,7 +54,7 @@ public class PlayerListener implements Listener {
 				}
 				break;
 			case BED:
-				BungeeUtil.sendToServer(event.getPlayer(), MeetupUtil.getBestHub().getServerName(), CorePlugin.getInstance());
+//				BungeeUtil.sendToServer(event.getPlayer(), MeetupUtil.getBestHub().getServerName());
 				break;
 		}
 	}

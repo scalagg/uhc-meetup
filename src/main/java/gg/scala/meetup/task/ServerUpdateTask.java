@@ -1,10 +1,7 @@
 package gg.scala.meetup.task;
 
-import gg.scala.meetup.Meetup;
-import gg.scala.meetup.util.JedisUtil;
+import gg.scala.meetup.util.DataUtil;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.concurrent.CompletableFuture;
 
 /**
  * @author GrowlyX
@@ -15,8 +12,6 @@ public class ServerUpdateTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        CompletableFuture.runAsync(() ->
-                Meetup.getInstance().getJedisManager().publish(JedisUtil.getServerUpdateJson())
-        );
+        DataUtil.update();
     }
 }

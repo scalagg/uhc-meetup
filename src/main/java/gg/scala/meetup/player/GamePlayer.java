@@ -3,14 +3,14 @@ package gg.scala.meetup.player;
 import com.google.gson.annotations.SerializedName;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
-import com.solexgames.core.CorePlugin;
+import gg.scala.lemon.Lemon;
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.MeetupConstants;
-import gg.scala.meetup.factory.GsonFactory;
 import gg.scala.meetup.model.Loadout;
 import gg.scala.meetup.task.NoCleanTimer;
 import lombok.Getter;
 import lombok.Setter;
+import net.evilblock.cubed.serializers.Serializers;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -55,8 +55,9 @@ public class GamePlayer {
         CompletableFuture.runAsync(() -> {
             Meetup.getInstance().getMongoHandler().getPlayerCollection().replaceOne(Filters.eq("uuid", this.uuid.toString()), this.getDocument(), new ReplaceOptions().upsert(true));
 
-            CorePlugin.getInstance().getJedisManager().runCommand(jedis -> {
-                jedis.hset(MeetupConstants.JEDIS_GAMEMODE_STATS_CACHE, this.uuid.toString(), GsonFactory.getCompactGson().toJson(this));
+            Lemon.getInstance().getBanana().useResource(jedis -> {
+                jedis.hset(MeetupConstants.JEDIS_GAMEMODE_STATS_CACHE, this.uuid.toString(), Serializers.getGson().toJson(this));
+                return null;
             });
         }).whenComplete((unused, throwable) -> {
             if (throwable != null) {
@@ -81,7 +82,7 @@ public class GamePlayer {
         document.put("wins", this.wins);
         document.put("reRolls", this.reRolls);
 
-        document.put("inventory", GsonFactory.getCompactGson().toJson(this.loadout));
+        document.put("inventory", Serializers.getGson().toJson(this.loadout));
 
         return document;
     }
@@ -89,8 +90,7 @@ public class GamePlayer {
     private void loadPlayerData() {
         CompletableFuture.supplyAsync(() -> Meetup.getInstance().getMongoHandler().getPlayerCollection().find(Filters.eq("uuid", this.uuid.toString())).first()).thenAccept(document -> {
             if (document == null) {
-                Meetup.getInstance().getServer().getScheduler()
-                        .runTaskLaterAsynchronously(CorePlugin.getInstance(), () -> this.savePlayerData(false), 20L);
+                this.savePlayerData(false);
             } else {
                 if (document.getInteger("kills") != null) {
                     this.kills = document.getInteger("kills");
@@ -111,7 +111,7 @@ public class GamePlayer {
                 final String inventory = document.getString("inventory");
 
                 if (inventory != null) {
-                    this.loadout = GsonFactory.getPrettyGson().fromJson(inventory, Loadout.class);
+                    this.loadout = Serializers.getGson().fromJson(inventory, Loadout.class);
                 }
             }
 

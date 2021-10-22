@@ -2,7 +2,7 @@ package gg.scala.meetup.task;
 
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.player.GamePlayer;
-import gg.scala.meetup.util.CC;
+import net.evilblock.cubed.util.CC;
 import gg.scala.meetup.util.MeetupUtil;
 import lombok.Getter;
 import org.bukkit.scheduler.BukkitRunnable;

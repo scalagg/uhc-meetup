@@ -1,7 +1,7 @@
 package gg.scala.meetup.command;
 
-import com.solexgames.lib.acf.BaseCommand;
-import com.solexgames.lib.acf.annotation.CommandAlias;
+import net.evilblock.cubed.acf.BaseCommand;
+import net.evilblock.cubed.acf.annotation.CommandAlias;
 import gg.scala.meetup.menu.LoadoutEditorMenu;
 import org.bukkit.entity.Player;
 

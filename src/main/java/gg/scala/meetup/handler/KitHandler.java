@@ -1,12 +1,11 @@
 package gg.scala.meetup.handler;
 
-import com.solexgames.core.CorePlugin;
-import com.solexgames.core.util.builder.ItemBuilder;
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.model.Loadout;
 import gg.scala.meetup.player.GamePlayer;
 import gg.scala.meetup.util.MeetupUtil;
 import lombok.Getter;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -16,6 +15,7 @@ import org.bukkit.inventory.PlayerInventory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Getter
 public class KitHandler {
@@ -26,23 +26,23 @@ public class KitHandler {
 		this.setupDefaultInventory(this.defaultInventory);
 	}
 
-	private final Random random = CorePlugin.RANDOM;
+	private final Random random = ThreadLocalRandom.current();
 
 	public void handleItems(Player player) {
 		final PlayerInventory inventory = player.getInventory();
 		final GamePlayer gamePlayer = Meetup.getInstance().getPlayerHandler().getByPlayer(player);
 
 		inventory.setHelmet(new ItemBuilder(this.getRandomMaterial("helmet"))
-				.setEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, this.getLevel()).create());
+				.enchant(Enchantment.PROTECTION_ENVIRONMENTAL, this.getLevel()).build());
 
 		inventory.setChestplate(new ItemBuilder(this.getRandomMaterial("chestplate"))
-				.setEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, this.getLevel()).create());
+				.enchant(Enchantment.PROTECTION_ENVIRONMENTAL, this.getLevel()).build());
 
 		inventory.setLeggings(new ItemBuilder(this.getRandomMaterial("leggings"))
-				.setEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, this.getLevel()).create());
+				.enchant(Enchantment.PROTECTION_ENVIRONMENTAL, this.getLevel()).build());
 
 		inventory.setBoots(new ItemBuilder(this.getRandomMaterial("boots"))
-				.setEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, this.getLevel()).create());
+				.enchant(Enchantment.PROTECTION_ENVIRONMENTAL, this.getLevel()).build());
 
 		boolean hasAnythingDiamond = false;
 
@@ -55,10 +55,10 @@ public class KitHandler {
 
 		if (!hasAnythingDiamond) {
 			inventory.setChestplate(new ItemBuilder(getRandomMaterial("chestplate"))
-					.setEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, getLevel()).create());
+					.enchant(Enchantment.PROTECTION_ENVIRONMENTAL, getLevel()).build());
 
 			inventory.setLeggings(new ItemBuilder(getRandomMaterial("leggings"))
-					.setEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, getLevel()).create());
+					.enchant(Enchantment.PROTECTION_ENVIRONMENTAL, getLevel()).build());
 		} else {
 			final boolean hasEverythingDiamond = inventory.getHelmet().getType().name().startsWith("DIAMOND")
 					&& inventory.getChestplate().getType().name().startsWith("DIAMOND")
@@ -67,20 +67,16 @@ public class KitHandler {
 
 			if (hasEverythingDiamond) {
 				inventory.setHelmet(new ItemBuilder(Material.IRON_HELMET)
-						.setEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, getLevel()).create());
+						.enchant(Enchantment.PROTECTION_ENVIRONMENTAL, getLevel()).build());
 
 				inventory.setBoots(new ItemBuilder(Material.IRON_BOOTS)
-						.setEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, getLevel()).create());
+						.enchant(Enchantment.PROTECTION_ENVIRONMENTAL, getLevel()).build());
 			}
 		}
 
 		final ItemStack sword = new ItemStack(getRandomMaterial("sword"));
 
 		sword.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, getLevel());
-
-//		if (this.random.nextInt(4) == 2) {
-//			sword.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 1);
-//		}
 
 		final ItemStack bow = new ItemStack(Material.BOW);
 
@@ -110,16 +106,16 @@ public class KitHandler {
 		inventory.setItem(loadout.getLocationOf(Material.COBBLESTONE), new ItemStack(Material.COBBLESTONE, 64));
 
 		inventory.setItem(loadout.getLocationOf(Material.ARROW), new ItemStack(Material.ARROW, 64));
-		inventory.setItem(loadout.getLocationOf(Material.LAVA_BUCKET), new ItemBuilder(Material.LAVA_BUCKET).setAmount(1).create());
-		inventory.setItem(loadout.getLocationOf(Material.WATER_BUCKET), new ItemBuilder(Material.WATER_BUCKET).setAmount(1).create());
+		inventory.setItem(loadout.getLocationOf(Material.LAVA_BUCKET), new ItemBuilder(Material.LAVA_BUCKET).amount(1).build());
+		inventory.setItem(loadout.getLocationOf(Material.WATER_BUCKET), new ItemBuilder(Material.WATER_BUCKET).amount(1).build());
 
 		inventory.setItem(loadout.getLocationOf(Material.DIAMOND_PICKAXE), new ItemStack(Material.DIAMOND_PICKAXE));
 		inventory.setItem(loadout.getLocationOf(Material.ENCHANTMENT_TABLE), new ItemStack(Material.ENCHANTMENT_TABLE));
 		inventory.setItem(loadout.getLocationOf(Material.ANVIL), new ItemStack(Material.ANVIL, this.random.nextInt(2) + 1));
 		inventory.setItem(loadout.getLocationOf(Material.EXP_BOTTLE), new ItemStack(Material.EXP_BOTTLE, 64));
 
-		inventory.setItem(inventory.firstEmpty(), new ItemBuilder(Material.LAVA_BUCKET).setAmount(1).create());
-		inventory.setItem(inventory.firstEmpty(), new ItemBuilder(Material.WATER_BUCKET).setAmount(1).create());
+		inventory.setItem(inventory.firstEmpty(), new ItemBuilder(Material.LAVA_BUCKET).amount(1).build());
+		inventory.setItem(inventory.firstEmpty(), new ItemBuilder(Material.WATER_BUCKET).amount(1).build());
 
 		player.updateInventory();
 	}

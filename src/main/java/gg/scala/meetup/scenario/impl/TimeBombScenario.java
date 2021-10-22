@@ -3,7 +3,7 @@ package gg.scala.meetup.scenario.impl;
 import com.google.common.collect.ImmutableList;
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.scenario.Scenario;
-import gg.scala.meetup.util.CC;
+import net.evilblock.cubed.util.CC;
 import gg.scala.meetup.util.MeetupUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

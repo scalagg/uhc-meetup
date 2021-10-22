@@ -4,7 +4,7 @@ import gg.scala.meetup.player.GamePlayer;
 import gg.scala.meetup.scenario.Scenario;
 import gg.scala.meetup.scenario.impl.listener.NoCleanListener;
 import gg.scala.meetup.task.NoCleanTimer;
-import gg.scala.meetup.util.CC;
+import net.evilblock.cubed.util.CC;
 import org.bukkit.event.Listener;
 
 import java.util.Collections;

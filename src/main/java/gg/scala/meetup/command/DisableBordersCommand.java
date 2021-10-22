@@ -1,15 +1,15 @@
 package gg.scala.meetup.command;
 
-import com.solexgames.lib.acf.BaseCommand;
-import com.solexgames.lib.acf.ConditionFailedException;
-import com.solexgames.lib.acf.annotation.CommandAlias;
-import com.solexgames.lib.acf.annotation.CommandPermission;
-import com.solexgames.lib.acf.annotation.Default;
+import net.evilblock.cubed.acf.BaseCommand;
+import net.evilblock.cubed.acf.ConditionFailedException;
+import net.evilblock.cubed.acf.annotation.CommandAlias;
+import net.evilblock.cubed.acf.annotation.CommandPermission;
+import net.evilblock.cubed.acf.annotation.Default;
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.game.Game;
 import gg.scala.meetup.game.GameState;
 import gg.scala.meetup.handler.GameHandler;
-import gg.scala.meetup.util.CC;
+import net.evilblock.cubed.util.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

@@ -1,9 +1,10 @@
 package gg.scala.meetup.handler;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.solexgames.core.CorePlugin;
+import gg.scala.lemon.Lemon;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.Document;
@@ -23,9 +24,13 @@ public class MongoHandler {
     private MongoCollection<Document> playerCollection;
 
     public MongoHandler() {
-        this.client = CorePlugin.getInstance().getCoreDatabase().getClient();
+        this.client = new MongoClient(
+                new MongoClientURI(
+                        Lemon.getInstance().getMongoConfig().getUri()
+                )
+        );
 
-        this.database = this.client.getDatabase("SGSoftware");
-        this.playerCollection = this.database.getCollection("UHCMeetup");
+        this.database = this.client.getDatabase("SolexGames");
+        this.playerCollection = this.database.getCollection("meetup_players");
     }
 }

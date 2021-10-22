@@ -1,15 +1,13 @@
 package gg.scala.meetup.task.game;
 
-import com.solexgames.core.CorePlugin;
-import com.solexgames.core.util.BungeeUtil;
-import com.solexgames.core.util.ExperienceUtil;
+import gg.scala.grape.GrapeSpigotPlugin;
+import gg.scala.grape.player.impl.PersistentGrapePlayer;
+import gg.scala.lemon.Lemon;
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.game.Game;
 import gg.scala.meetup.player.GamePlayer;
-import gg.scala.meetup.util.CC;
-import gg.scala.meetup.util.MeetupUtil;
+import net.evilblock.cubed.util.CC;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -29,12 +27,14 @@ public class GameEndTask extends BukkitRunnable {
 		final Game game = Meetup.getInstance().getGameHandler().getGame();
 
 		if (game.getEndTime() == 8) {
-			CorePlugin.getInstance().getServerSettings().setCanJoin(false);
+			Lemon.setCanJoin(false);
 
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				final boolean winner = game.getWinnerId().equals(player.getUniqueId());
+				final PersistentGrapePlayer grapePlayer = GrapeSpigotPlugin.getInstance()
+						.getPlayerHandler().getByPlayer(player);
 
-				ExperienceUtil.addExperience(player, winner ? 150 : 15);
+				grapePlayer.setCoins(grapePlayer.getCoins() + (winner ? 150 : 15));
 
 				final GamePlayer gamePlayer = Meetup.getInstance().getPlayerHandler().getByPlayer(player);
 
@@ -47,10 +47,7 @@ public class GameEndTask extends BukkitRunnable {
 
 		if (game.getEndTime() == 5) {
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				player.sendMessage(ChatColor.RED + "The server you were previously on is now down for:");
-				player.sendMessage(game.getWinner() + CC.GREEN + " has won the game, thanks for playing!");
-
-				BungeeUtil.sendToServer(player, MeetupUtil.getBestHub().getServerName(), CorePlugin.getInstance());
+				player.kickPlayer(game.getWinner() + CC.GREEN + " has won the game, thanks for playing!");
 			}
 		}
 

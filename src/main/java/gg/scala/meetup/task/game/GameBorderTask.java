@@ -4,7 +4,7 @@ import gg.scala.meetup.Meetup;
 import gg.scala.meetup.game.Game;
 import gg.scala.meetup.handler.BorderHandler;
 import gg.scala.meetup.handler.GameHandler;
-import gg.scala.meetup.util.CC;
+import net.evilblock.cubed.util.CC;
 import gg.scala.meetup.util.MeetupUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;

@@ -3,7 +3,7 @@ package gg.scala.meetup.scenario.impl.listener;
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.player.GamePlayer;
 import gg.scala.meetup.scenario.impl.NoCleanScenario;
-import gg.scala.meetup.util.CC;
+import net.evilblock.cubed.util.CC;
 import gg.scala.meetup.util.MeetupUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;

@@ -1,7 +1,5 @@
 package gg.scala.meetup.handler;
 
-import com.solexgames.core.util.StringUtil;
-import com.solexgames.lib.commons.CommonLibsBukkit;
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.game.Game;
 import gg.scala.meetup.game.GameState;
@@ -10,15 +8,14 @@ import gg.scala.meetup.task.WorldGenTask;
 import gg.scala.meetup.task.game.GameBorderTask;
 import gg.scala.meetup.task.game.GameEndTask;
 import gg.scala.meetup.task.game.GameStartTask;
-import gg.scala.meetup.util.CC;
 import gg.scala.meetup.util.MeetupUtil;
 import io.papermc.lib.PaperLib;
 import lombok.Getter;
 import lombok.Setter;
 import me.lucko.helper.hologram.Hologram;
-import me.lucko.helper.hologram.HologramFactory;
 import me.lucko.helper.scheduler.threadlock.ServerThreadLock;
-import me.lucko.helper.serialize.Position;
+import net.evilblock.cubed.util.CC;
+import net.evilblock.cubed.util.text.TextUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -84,16 +81,16 @@ public class GameHandler {
 		for (int i = 0; i < Math.min(3, sorted.size()); i++) {
 			final Map.Entry<String, Integer> entry = sorted.get(i);
 
-			topKills.add(StringUtil.getCentered(CC.SEC + (i == 0 ? "1st" : i == 1 ? "2nd" : "3rd") + CC.GRAY + " - " + entry.getKey() + CC.GRAY + " - " + CC.PRI + entry.getValue()));
+			topKills.add(TextUtil.getCentered(CC.SEC + (i == 0 ? "1st" : i == 1 ? "2nd" : "3rd") + CC.GRAY + " - " + entry.getKey() + CC.GRAY + " - " + CC.PRI + entry.getValue()));
 		}
 
 		final List<String> messages = new ArrayList<>();
 
 		messages.add(CC.GRAY + CC.S + StringUtils.repeat("-", 53));
-		messages.add(StringUtil.getCentered(CC.PRI + CC.BOLD + "Meetup Game Results"));
-		messages.add(StringUtil.getCentered(CC.GRAY + "Winner: " + winner.getPlayer().getDisplayName()));
+		messages.add(TextUtil.getCentered(CC.PRI + CC.BOLD + "Meetup Game Results"));
+		messages.add(TextUtil.getCentered(CC.GRAY + "Winner: " + winner.getPlayer().getDisplayName()));
 		messages.add("");
-		messages.add(StringUtil.getCentered(CC.PRI + CC.BOLD + "Top Kills"));
+		messages.add(TextUtil.getCentered(CC.PRI + CC.BOLD + "Top Kills"));
 		messages.addAll(topKills);
 		messages.add(CC.GRAY + CC.S + StringUtils.repeat("-", 53));
 
@@ -109,6 +106,11 @@ public class GameHandler {
 		final AtomicInteger atomicInteger = new AtomicInteger(1);
 
 		this.getKillTrackerMap().forEach((s, integer) -> {
+			if (atomicInteger.get() >= 3)
+			{
+				return;
+			}
+
 			this.scoreboardEndingLines.add(CC.PRI + " #" + atomicInteger.getAndIncrement() + CC.WHITE + ": " + s + CC.GRAY + " - " + CC.YELLOW + integer);
 		});
 
@@ -187,25 +189,25 @@ public class GameHandler {
 	}
 
 	public void handleSetupHolo(Player player) {
-		final GamePlayer gamePlayer = Meetup.getInstance().getPlayerHandler().getByPlayer(player);
-		final HologramFactory hologramFactory = CommonLibsBukkit.getInstance().getHologramManager().getHologramFactory();
-
-		final Location newLocation = player.getLocation().clone().add(0.0D, 2.15D, 2.15D);
-		final Position position = Position.of(newLocation);
-		final List<String> stringList = new ArrayList<>(Arrays.asList(
-				CC.UB_PRI + "Your Stats",
-				"Kills: " + gamePlayer.getKills(),
-				"Deaths: " + gamePlayer.getDeaths(),
-				"KDR: " + (gamePlayer.getKills() != 0 && gamePlayer.getDeaths() != 0 ? (gamePlayer.getKills() / gamePlayer.getDeaths()) : 0.0),
-				"Game Wins: " + gamePlayer.getWins(),
-				"Games Played: " + gamePlayer.getPlayed(),
-				"Re-rolls: " + gamePlayer.getReRolls()
-		));
-
-		final Hologram hologram = hologramFactory.newHologram(position, stringList);
-		MeetupUtil.callSync(hologram::spawn);
-
-		this.statHologramMap.put(player.getUniqueId(), hologram);
+//		final GamePlayer gamePlayer = Meetup.getInstance().getPlayerHandler().getByPlayer(player);
+//		final HologramFactory hologramFactory = CommonLibsBukkit.getInstance().getHologramManager().getHologramFactory();
+//
+//		final Location newLocation = player.getLocation().clone().add(0.0D, 2.15D, 2.15D);
+//		final Position position = Position.of(newLocation);
+//		final List<String> stringList = new ArrayList<>(Arrays.asList(
+//				CC.UB_PRI + "Your Stats",
+//				"Kills: " + gamePlayer.getKills(),
+//				"Deaths: " + gamePlayer.getDeaths(),
+//				"KDR: " + (gamePlayer.getKills() != 0 && gamePlayer.getDeaths() != 0 ? (gamePlayer.getKills() / gamePlayer.getDeaths()) : 0.0),
+//				"Game Wins: " + gamePlayer.getWins(),
+//				"Games Played: " + gamePlayer.getPlayed(),
+//				"Re-rolls: " + gamePlayer.getReRolls()
+//		));
+//
+//		final Hologram hologram = hologramFactory.newHologram(position, stringList);
+//		MeetupUtil.callSync(hologram::spawn);
+//
+//		this.statHologramMap.put(player.getUniqueId(), hologram);
 	}
 
 	public void handleLoadChunks() {

@@ -1,6 +1,5 @@
 package gg.scala.meetup.listener;
 
-import com.solexgames.core.util.Color;
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.game.GameState;
 import gg.scala.meetup.handler.DeathMessageHandler;
@@ -8,10 +7,11 @@ import gg.scala.meetup.handler.GameHandler;
 import gg.scala.meetup.player.GamePlayer;
 import gg.scala.meetup.scenario.impl.NoCleanScenario;
 import gg.scala.meetup.scenario.impl.TimeBombScenario;
-import gg.scala.meetup.util.CC;
+import net.evilblock.cubed.util.CC;
 import gg.scala.meetup.util.MeetupUtil;
 import io.papermc.lib.PaperLib;
 import me.lucko.helper.hologram.Hologram;
+import net.evilblock.cubed.util.Color;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -54,14 +54,15 @@ public class GameListener implements Listener {
 
         Meetup.getInstance().getPlayerHandler().setupInventory(player);
 
-        final Scoreboard board = Meetup.getInstance().getScoreboardHandler().getAdapter().getScoreboard(player);
-
-        final Objective tabHealthObjective = board.registerNewObjective("tabHealth", "health");
-        tabHealthObjective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-
-        final Objective nameHealthObjective = board.registerNewObjective("nameHealth", "health");
-        nameHealthObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        nameHealthObjective.setDisplayName(CC.D_RED + "\u2764");
+        // TODO: 10/22/2021 fix this
+//        final Scoreboard board = Meetup.getInstance().getScoreboardHandler().getAdapter().getScoreboard(player);
+//
+//        final Objective tabHealthObjective = board.registerNewObjective("tabHealth", "health");
+//        tabHealthObjective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+//
+//        final Objective nameHealthObjective = board.registerNewObjective("nameHealth", "health");
+//        nameHealthObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+//        nameHealthObjective.setDisplayName(CC.D_RED + "\u2764");
 
         switch (gameHandler.getGame().getState()) {
             case WAITING:
@@ -191,26 +192,27 @@ public class GameListener implements Listener {
         final Player player = (Player) event.getEntity();
         final GamePlayer gamePlayer = Meetup.getInstance().getPlayerHandler().getByPlayer(player);
 
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            final Scoreboard board = Meetup.getInstance().getScoreboardHandler().getAdapter().getScoreboard(onlinePlayer);
-
-            Objective tabHealthObjective = board.getObjective("tabHealth");
-
-            if (tabHealthObjective == null) {
-                tabHealthObjective = board.registerNewObjective("tabHealth", "health");
-                tabHealthObjective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-            }
-            tabHealthObjective.getScore(player.getName()).setScore(this.getHealth(player));
-
-            Objective nameHealthObjective = board.getObjective("nameHealth");
-
-            if (nameHealthObjective == null) {
-                nameHealthObjective = board.registerNewObjective("nameHealth", "health");
-                nameHealthObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
-                nameHealthObjective.setDisplayName(CC.D_RED + "\u2764");
-            }
-            nameHealthObjective.getScore(player.getName()).setScore(this.getHealth(player));
-        }
+        // TODO: 10/22/2021 fix this
+//        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+//            final Scoreboard board = Meetup.getInstance().getScoreboardHandler().getAdapter().getScoreboard(onlinePlayer);
+//
+//            Objective tabHealthObjective = board.getObjective("tabHealth");
+//
+//            if (tabHealthObjective == null) {
+//                tabHealthObjective = board.registerNewObjective("tabHealth", "health");
+//                tabHealthObjective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+//            }
+//            tabHealthObjective.getScore(player.getName()).setScore(this.getHealth(player));
+//
+//            Objective nameHealthObjective = board.getObjective("nameHealth");
+//
+//            if (nameHealthObjective == null) {
+//                nameHealthObjective = board.registerNewObjective("nameHealth", "health");
+//                nameHealthObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+//                nameHealthObjective.setDisplayName(CC.D_RED + "\u2764");
+//            }
+//            nameHealthObjective.getScore(player.getName()).setScore(this.getHealth(player));
+//        }
 
         if (gamePlayer.getNoCleanTimer() != null) {
             event.setCancelled(true);
@@ -248,7 +250,7 @@ public class GameListener implements Listener {
 
         if (item == null || item.getType() != Material.GOLDEN_APPLE
                 || item.getItemMeta() == null || !item.getItemMeta().hasDisplayName()
-                || !item.getItemMeta().getDisplayName().equalsIgnoreCase(Color.translate("&6Golden Head"))) {
+                || !item.getItemMeta().getDisplayName().equalsIgnoreCase(CC.GOLD + "Golden Head")) {
             return;
         }
 

@@ -1,15 +1,16 @@
 package gg.scala.meetup.menu;
 
-import com.solexgames.core.util.builder.ItemBuilder;
-import com.solexgames.core.util.external.Button;
-import com.solexgames.core.util.external.Menu;
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.player.GamePlayer;
-import gg.scala.meetup.util.CC;
+import net.evilblock.cubed.menu.Button;
+import net.evilblock.cubed.menu.Menu;
+import net.evilblock.cubed.util.CC;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,28 +23,30 @@ import java.util.Map;
 public class LoadoutEditorMenu extends Menu {
 
     private static final ItemStack RED_GLASS = new ItemBuilder(Material.STAINED_GLASS_PANE)
-            .setDurability(14)
-            .setDisplayName(ChatColor.RED + "Do not touch!")
-            .addLore(
+            .data((short) 14)
+            .name(ChatColor.RED + "Do not touch!")
+            .addToLore(
                     "&7You shouldn't be able",
                     "&7to add items to your",
                     "&7own inventory while",
                     "&7editing loadouts!"
             )
-            .create();
+            .build();
 
     @Override
-    public int getSize() {
+    public int size(@NotNull Map<Integer, ? extends Button> buttons) {
         return 36;
     }
 
+    @NotNull
     @Override
-    public String getTitle(Player player) {
+    public String getTitle(@NotNull Player player) {
         return "Editing Loadout";
     }
 
+    @NotNull
     @Override
-    public Map<Integer, Button> getButtons(Player player) {
+    public Map<Integer, Button> getButtons(@NotNull Player player) {
         final Map<Integer, Button> buttonMap = new HashMap<>();
         final GamePlayer gamePlayer = Meetup.getInstance().getPlayerHandler().getByPlayer(player);
 
@@ -71,7 +74,7 @@ public class LoadoutEditorMenu extends Menu {
     }
 
     @Override
-    public void onClose(Player player) {
+    public void onClose(@NotNull Player player, boolean manualClose) {
         final GamePlayer gamePlayer = Meetup.getInstance().getPlayerHandler().getByPlayer(player);
 
         for (int i = 0; i <= 35; i++) {

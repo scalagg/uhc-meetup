@@ -1,34 +1,46 @@
 package gg.scala.meetup.provider;
 
-import com.solexgames.core.util.PlayerUtil;
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.game.Game;
 import gg.scala.meetup.handler.GameHandler;
 import gg.scala.meetup.player.GamePlayer;
-import gg.scala.meetup.util.CC;
-import io.github.nosequel.scoreboard.element.ScoreboardElement;
-import io.github.nosequel.scoreboard.element.ScoreboardElementHandler;
+import net.evilblock.cubed.scoreboard.ScoreboardAdapter;
+import net.evilblock.cubed.util.CC;
+import net.evilblock.cubed.util.nms.MinecraftReflection;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * @author puugz
  * @since 18/06/2021 22:57
  */
-public class ScoreboardProvider implements ScoreboardElementHandler {
+public class ScoreboardProvider extends ScoreboardAdapter {
+
+	private String getFormattedPing(int ping) {
+		if (ping > 300) {
+			return CC.D_RED + ping + " ms";
+		} else if (ping > 150){
+			return CC.PRI + ping + " ms";
+		} else if (ping > 80){
+			return CC.YELLOW + ping + " ms";
+		} else {
+			return CC.GREEN + ping + " ms";
+		}
+	}
 
 	@Override
-	public ScoreboardElement getElement(Player player) {
-		final ScoreboardElement element = new ScoreboardElement();
-
+	public void getLines(
+			@NotNull LinkedList<String> element, @NotNull Player player
+	) {
 		final GamePlayer gamePlayer = Meetup.getInstance().getPlayerHandler().getByPlayer(player);
 		final GameHandler gameHandler = Meetup.getInstance().getGameHandler();
 		final Game game = gameHandler.getGame();
 
 		final List<GamePlayer> remaining = gameHandler.getRemaining();
 
-		element.setTitle(CC.B_PRI + "UHC Meetup");
 		element.add(CC.GRAY + CC.S + "-------------------");
 
 		switch (game.getState()) {
@@ -47,7 +59,7 @@ public class ScoreboardProvider implements ScoreboardElementHandler {
 			case IN_GAME:
 				element.add("Border: " + CC.PRI + game.getNextBorder() + game.getFormattedBorderStatus());
 				element.add("Remaining: " + CC.PRI + gameHandler.getRemaining().size() + "/" + gameHandler.getInitialPlayers());
-				element.add("Your Ping: " + CC.PRI + this.getFormattedPing(PlayerUtil.getPing(player)));
+				element.add("Your Ping: " + CC.PRI + this.getFormattedPing(MinecraftReflection.getPing(player)));
 				element.add("Kills: " + CC.PRI + gamePlayer.getGameKills());
 
 				if (gamePlayer.getNoCleanTimer() != null) {
@@ -58,26 +70,18 @@ public class ScoreboardProvider implements ScoreboardElementHandler {
 				break;
 			case ENDING:
 				element.add(CC.B_PRI + "Top 3 kills:");
-				gameHandler.getScoreboardEndingLines().forEach(element::add);
+				element.addAll(gameHandler.getScoreboardEndingLines());
 				break;
 		}
 
 		element.add("");
 		element.add(CC.PRI + "pvp.bar");
 		element.add(CC.GRAY + CC.S + "-------------------");
-
-		return element;
 	}
 
-	private String getFormattedPing(int ping) {
-		if (ping > 300) {
-			return CC.D_RED + ping + " ms";
-		} else if (ping > 150){
-			return CC.PRI + ping + " ms";
-		} else if (ping > 80){
-			return CC.YELLOW + ping + " ms";
-		} else {
-			return CC.GREEN + ping + " ms";
-		}
+	@NotNull
+	@Override
+	public String getTitle(@NotNull Player player) {
+		return CC.B_PRI + "UHC Meetup";
 	}
 }

@@ -1,9 +1,5 @@
 package gg.scala.meetup.util;
 
-import com.solexgames.core.CorePlugin;
-import com.solexgames.core.enums.NetworkServerType;
-import com.solexgames.core.server.NetworkServer;
-import com.solexgames.core.util.builder.ItemBuilder;
 import gg.scala.meetup.Meetup;
 import me.lucko.helper.scheduler.threadlock.ServerThreadLock;
 import net.minecraft.server.v1_8_R3.*;
@@ -33,13 +29,13 @@ import java.util.stream.Collectors;
 
 public class MeetupUtil {
 
-	public static NetworkServer getBestHub() {
-		final List<NetworkServer> serverList = CorePlugin.getInstance().getServerManager().getNetworkServers().stream().filter(Objects::nonNull)
-				.filter(networkServer -> networkServer.getServerType().equals(NetworkServerType.HUB) && !networkServer.getServerName().contains("ds"))
-				.collect(Collectors.toList());
-
-		return serverList.get(ThreadLocalRandom.current().nextInt(serverList.size()));
-	}
+//	public static NetworkServer getBestHub() {
+//		final List<NetworkServer> serverList = CorePlugin.getInstance().getServerManager().getNetworkServers().stream().filter(Objects::nonNull)
+//				.filter(networkServer -> networkServer.getServerType().equals(NetworkServerType.HUB) && !networkServer.getServerName().contains("ds"))
+//				.collect(Collectors.toList());
+//
+//		return serverList.get(ThreadLocalRandom.current().nextInt(serverList.size()));
+//	}
 
 	public static String millisToRoundedTime(long millis) {
 		return DurationFormatUtils.formatDurationWords(millis, true, true);

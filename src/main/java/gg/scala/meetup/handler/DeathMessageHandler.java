@@ -2,7 +2,7 @@ package gg.scala.meetup.handler;
 
 import gg.scala.meetup.Meetup;
 import gg.scala.meetup.player.GamePlayer;
-import gg.scala.meetup.util.CC;
+import net.evilblock.cubed.util.CC;
 import net.minecraft.server.v1_8_R3.EntityLiving;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
