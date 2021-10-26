@@ -1,5 +1,7 @@
 package gg.scala.meetup.command;
 
+import gg.scala.grape.GrapeSpigotPlugin;
+import gg.scala.grape.player.impl.PersistentGrapePlayer;
 import net.evilblock.cubed.acf.BaseCommand;
 import net.evilblock.cubed.acf.ConditionFailedException;
 import net.evilblock.cubed.acf.annotation.CommandAlias;
@@ -53,16 +55,16 @@ public class ReRollCommand extends BaseCommand {
     @Subcommand("purchase")
     @CommandCompletion("@purchasable")
     public void onPurchase(Player player, Integer amount) {
-        final PotPlayer potPlayer = CorePlugin.getInstance().getPlayerManager().getPlayer(player);
+        final PersistentGrapePlayer grapePlayer = GrapeSpigotPlugin.getInstance().getPlayerHandler().getByPlayer(player);
         final GamePlayer gamePlayer = Meetup.getInstance().getPlayerHandler().getByPlayer(player);
         final int decrementBy = amount * 100;
 
-        if (potPlayer.getExperience() < amount) {
+        if (grapePlayer.getCoins() < amount) {
             throw new ConditionFailedException("You do not have enough experience to purchase " + CC.SEC + amount + CC.RED + " re-rolls (" + decrementBy + " experience needed).");
         }
 
         gamePlayer.setReRolls(gamePlayer.getReRolls() + amount);
-        potPlayer.setExperience(potPlayer.getExperience() - decrementBy);
+        grapePlayer.setCoins(grapePlayer.getCoins() - decrementBy);
 
         player.sendMessage(CC.SEC + "You've purchased " + CC.PRI + amount + CC.SEC + " re-rolls for " + CC.PRI + decrementBy + CC.SEC + " experience.");
     }

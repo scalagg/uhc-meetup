@@ -2,9 +2,12 @@ package gg.scala.meetup.util;
 
 import gg.scala.meetup.Meetup;
 import me.lucko.helper.scheduler.threadlock.ServerThreadLock;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 import net.minecraft.server.v1_8_R3.*;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.*;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -102,14 +105,15 @@ public class MeetupUtil {
 		if (resetHeldItemSlot) player.getInventory().setHeldItemSlot(0);
 		player.updateInventory();
 	}
+
 	public static void sendTitle(Player player, String title, String subTitle, int fadeIn, int stayTime, int fadeOut) {
-		final CraftPlayer craftPlayer = (CraftPlayer) player;
-
-		final PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, IChatBaseComponent.ChatSerializer.a(Color.translate("{\"text\": \"" + title + "\"}")), fadeIn, stayTime, fadeOut);
-		final PacketPlayOutTitle subTitlePacket = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, IChatBaseComponent.ChatSerializer.a(Color.translate("{\"text\": \"" + subTitle + "\"}")), fadeIn, stayTime, fadeOut);
-
-		craftPlayer.getHandle().playerConnection.sendPacket(titlePacket);
-		craftPlayer.getHandle().playerConnection.sendPacket(subTitlePacket);
+//		final CraftPlayer craftPlayer = (CraftPlayer) player;
+//
+//		final PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, IChatBaseComponent.ChatSerializer.a(Color.translate("{\"text\": \"" + title + "\"}")), fadeIn, stayTime, fadeOut);
+//		final PacketPlayOutTitle subTitlePacket = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, IChatBaseComponent.ChatSerializer.a(Color.translate("{\"text\": \"" + subTitle + "\"}")), fadeIn, stayTime, fadeOut);
+//
+//		craftPlayer.getHandle().playerConnection.sendPacket(titlePacket);
+//		craftPlayer.getHandle().playerConnection.sendPacket(subTitlePacket);
 	}
 
 	public static ItemStack getGoldenHead() {

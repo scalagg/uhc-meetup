@@ -61,6 +61,7 @@ public final class Meetup extends JavaPlugin {
 
         ScoreboardHandler.configure(new ScoreboardProvider());
 
+
         Lemon.getInstance().getLocalInstance()
                 .getMetaData().put("game-server", "true");
 
