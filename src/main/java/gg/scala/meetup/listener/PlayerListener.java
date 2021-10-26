@@ -53,6 +53,9 @@ public class PlayerListener implements Listener {
 					new SpectateMenu().openMenu(event.getPlayer());
 				}
 				break;
+			case BED:
+				event.getPlayer().kickPlayer("");
+				break;
 		}
 	}
 
