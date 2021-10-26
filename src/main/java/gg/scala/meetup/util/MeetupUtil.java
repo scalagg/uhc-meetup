@@ -118,13 +118,13 @@ public class MeetupUtil {
 
 	public static ItemStack getGoldenHead() {
 		return new ItemBuilder(Material.GOLDEN_APPLE)
-				.setDurability(0)
-				.setDisplayName("&6Golden Head")
-				.addLore(
+				.data((short) 0)
+				.name("&6Golden Head")
+				.addToLore(
 						"&7Consume this special apple",
 						"&7to receive health boosting effects!"
 				)
-				.create();
+				.build();
 	}
 
 	public static void deleteWorld() {
