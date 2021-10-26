@@ -53,9 +53,6 @@ public class PlayerListener implements Listener {
 					new SpectateMenu().openMenu(event.getPlayer());
 				}
 				break;
-			case BED:
-//				BungeeUtil.sendToServer(event.getPlayer(), MeetupUtil.getBestHub().getServerName());
-				break;
 		}
 	}
 
