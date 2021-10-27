@@ -15,12 +15,12 @@ object UHCMeetupNametag : NametagProvider(
     "uhc_meetup", 10
 )
 {
-    val gameHandler: GameHandler = Meetup.getInstance().gameHandler
+    val gameHandler: GameHandler = Meetup.instance.gameHandler
 
     override fun fetchNametag(toRefresh: Player, refreshFor: Player): NametagInfo?
     {
-        val viewer = Meetup.getInstance().playerHandler.getByPlayer(refreshFor)
-        val target = Meetup.getInstance().playerHandler.getByPlayer(refreshFor)
+        val viewer = Meetup.instance.playerHandler.getByPlayer(refreshFor)
+        val target = Meetup.instance.playerHandler.getByPlayer(refreshFor)
 
         if (gameHandler.spectators.contains(target) && gameHandler.spectators.contains(viewer))
         {

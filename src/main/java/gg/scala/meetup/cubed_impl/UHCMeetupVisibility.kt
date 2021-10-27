@@ -12,12 +12,12 @@ import org.bukkit.entity.Player
  */
 object UHCMeetupVisibility : VisibilityAdapter
 {
-    val gameHandler: GameHandler = Meetup.getInstance().gameHandler
+    val gameHandler: GameHandler = Meetup.instance.gameHandler
 
     override fun getAction(toRefresh: Player, refreshFor: Player): VisibilityAction
     {
-        val viewer = Meetup.getInstance().playerHandler.getByPlayer(refreshFor)
-        val target = Meetup.getInstance().playerHandler.getByPlayer(refreshFor)
+        val viewer = Meetup.instance.playerHandler.getByPlayer(refreshFor)
+        val target = Meetup.instance.playerHandler.getByPlayer(refreshFor)
 
         if (gameHandler.spectators.contains(target) && !gameHandler.spectators.contains(viewer))
         {

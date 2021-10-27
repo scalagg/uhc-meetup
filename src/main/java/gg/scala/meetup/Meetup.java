@@ -32,7 +32,7 @@ import java.util.Arrays;
 public final class Meetup extends JavaPlugin {
 
     @Getter
-    private static Meetup instance;
+    public static Meetup instance;
 
     private GameHandler gameHandler;
     private MongoHandler mongoHandler;
