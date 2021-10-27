@@ -82,7 +82,7 @@ public class GamePlayer {
         document.put("wins", this.wins);
         document.put("reRolls", this.reRolls);
 
-        document.put("inventory", Serializers.getGson().toJson(this.loadout));
+//        document.put("inventory", Serializers.getGson().toJson(this.loadout));
 
         return document;
     }

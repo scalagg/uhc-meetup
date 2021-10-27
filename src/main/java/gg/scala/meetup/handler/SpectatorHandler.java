@@ -85,7 +85,7 @@ public class SpectatorHandler {
 			player.updateInventory();
 
 			NametagHandler.INSTANCE.reloadPlayer(player);
-			VisibilityHandler.INSTANCE.update(player);
+			VisibilityHandler.INSTANCE.updateToAll(player);
 		});
 	}
 

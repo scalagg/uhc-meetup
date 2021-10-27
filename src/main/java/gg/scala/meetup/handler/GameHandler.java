@@ -39,7 +39,7 @@ public class GameHandler {
 
 	private Game game = new Game();
 
-	private final List<GamePlayer> remaining = new ArrayList<>();
+	public final List<GamePlayer> remaining = new ArrayList<>();
 	public final List<GamePlayer> spectators = new ArrayList<>();
 	private final List<String> scoreboardEndingLines = new ArrayList<>();
 

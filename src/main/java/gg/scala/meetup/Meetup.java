@@ -16,11 +16,13 @@ import gg.scala.meetup.util.MeetupUtil;
 import lombok.Getter;
 import net.evilblock.cubed.acf.InvalidCommandArgument;
 import net.evilblock.cubed.acf.PaperCommandManager;
+import net.evilblock.cubed.command.manager.CubedCommandManager;
 import net.evilblock.cubed.nametag.NametagHandler;
 import net.evilblock.cubed.scoreboard.ScoreboardHandler;
 import net.evilblock.cubed.util.CC;
 import net.evilblock.cubed.visibility.VisibilityHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.plugin.PluginManager;
@@ -34,9 +36,9 @@ public final class Meetup extends JavaPlugin {
     @Getter
     public static Meetup instance;
 
-    private GameHandler gameHandler;
+    public GameHandler gameHandler;
     private MongoHandler mongoHandler;
-    private PlayerHandler playerHandler;
+    public PlayerHandler playerHandler;
     private SpectatorHandler spectatorHandler;
     private ScenarioHandler scenarioHandler;
     private KitHandler kitHandler;
@@ -84,7 +86,11 @@ public final class Meetup extends JavaPlugin {
     }
 
     private void registerCommands() {
-        final PaperCommandManager manager = new PaperCommandManager(this);
+        final PaperCommandManager manager = new CubedCommandManager(
+                this,
+                ChatColor.valueOf(Lemon.instance.lemonWebData.getPrimary()),
+                ChatColor.valueOf(Lemon.instance.lemonWebData.getSecondary())
+        );
 
         manager.registerCommand(new ForceStartCommand());
         manager.registerCommand(new LoadoutCommand());
