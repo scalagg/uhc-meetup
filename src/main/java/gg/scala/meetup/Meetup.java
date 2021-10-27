@@ -3,6 +3,8 @@ package gg.scala.meetup;
 import gg.scala.lemon.Lemon;
 import gg.scala.meetup.chat.MeetupSpectateChannel;
 import gg.scala.meetup.command.*;
+import gg.scala.meetup.cubed_impl.UHCMeetupNametag;
+import gg.scala.meetup.cubed_impl.UHCMeetupVisibility;
 import gg.scala.meetup.handler.*;
 import gg.scala.meetup.listener.GameListener;
 import gg.scala.meetup.listener.PlayerListener;
@@ -14,8 +16,10 @@ import gg.scala.meetup.util.MeetupUtil;
 import lombok.Getter;
 import net.evilblock.cubed.acf.InvalidCommandArgument;
 import net.evilblock.cubed.acf.PaperCommandManager;
+import net.evilblock.cubed.nametag.NametagHandler;
 import net.evilblock.cubed.scoreboard.ScoreboardHandler;
 import net.evilblock.cubed.util.CC;
+import net.evilblock.cubed.visibility.VisibilityHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -61,6 +65,8 @@ public final class Meetup extends JavaPlugin {
 
         ScoreboardHandler.configure(new ScoreboardProvider());
 
+        NametagHandler.INSTANCE.registerProvider(UHCMeetupNametag.INSTANCE);
+        VisibilityHandler.INSTANCE.registerAdapter("uhc_meetup", UHCMeetupVisibility.INSTANCE);
 
         Lemon.getInstance().getLocalInstance()
                 .getMetaData().put("game-server", "true");

@@ -152,14 +152,6 @@ public class GameHandler {
 	public void handleStarting() {
 		this.game.setState(GameState.STARTING);
 
-		final List<Player> remaining = this.remaining.stream().map(GamePlayer::getPlayer).collect(Collectors.toList());
-
-		for (Player player : remaining) {
-			for (Player player1 : remaining) {
-				player.showPlayer(player1);
-			}
-		}
-
 		Bukkit.getScheduler().runTaskLater(Meetup.getInstance(), () -> {
 			this.getRemaining().forEach(gamePlayer -> {
 				final Player player = gamePlayer.getPlayer();

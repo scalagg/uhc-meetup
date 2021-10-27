@@ -30,14 +30,14 @@ public class SpectateCommand extends BaseCommand {
 
         if (!spectating) {
             fancyMessage
-                    .withMessage("${CC.GRAY}Are you sure you want to spectate?\n")
+                    .withMessage(CC.GRAY + "Are you sure you want to spectate?\n")
                     .withMessage(CC.GREEN + "[Click here to spectate]")
                     .andCommandOf(
                             ClickEvent.Action.RUN_COMMAND, "/spec confirm"
                     );
         } else {
 			fancyMessage
-					.withMessage("${CC.GRAY}Are you sure you want to stop spectating?\n")
+					.withMessage(CC.GRAY + "Are you sure you want to stop spectating?\n")
 					.withMessage(CC.RED + "[Click here to stop spectating]")
 					.andCommandOf(
 							ClickEvent.Action.RUN_COMMAND, "/spec confirm"

@@ -7,6 +7,7 @@ import net.evilblock.cubed.util.CC;
 import gg.scala.meetup.util.MeetupUtil;
 import io.papermc.lib.PaperLib;
 import net.evilblock.cubed.util.bukkit.ItemBuilder;
+import net.evilblock.cubed.visibility.VisibilityHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -72,32 +73,6 @@ public class SpectatorHandler {
 				MeetupUtil.sendTitle(player, CC.B_RED + "DEAD", "You are now a spectator!", 0, 80, 20);
 			}
 
-//			Bukkit.getOnlinePlayers().forEach(other -> {
-//				final GamePlayer otherPlayer = Meetup.getInstance().getPlayerHandler().getByPlayer(other);
-//				final Scoreboard board = Meetup.getInstance().getScoreboardHandler().getAdapter().getScoreboard(other);
-//
-//				Team ghostTeam = board.getTeam("ghost");
-//
-//				if (ghostTeam == null) {
-//					ghostTeam = board.registerNewTeam("ghost");
-//					ghostTeam.setCanSeeFriendlyInvisibles(true);
-//				}
-//
-//				if (!otherPlayer.isSpectating()) {
-//					other.hidePlayer(player);
-//
-//					if (ghostTeam.hasEntry(player.getName())) {
-//						ghostTeam.removeEntry(player.getName());
-//					}
-//				} else {
-//					other.showPlayer(player);
-//
-//					if (!ghostTeam.hasEntry(player.getName())) {
-//						ghostTeam.addEntry(player.getName());
-//					}
-//				}
-//			});
-
 			if (reason != null && reason.equals("chose to watch")) {
 				PaperLib.teleportAsync(player, Meetup.getInstance().getGameHandler().getSpawnLocation());
 			}
@@ -108,6 +83,9 @@ public class SpectatorHandler {
 			player.getInventory().setItem(1, this.navigationCompassItem);
 
 			player.updateInventory();
+
+			NametagHandler.INSTANCE.reloadPlayer(player);
+			VisibilityHandler.INSTANCE.update(player);
 		});
 	}
 
@@ -123,6 +101,7 @@ public class SpectatorHandler {
 		PaperLib.teleportAsync(player, gameHandler.getSpawnLocation());
 
 		NametagHandler.INSTANCE.reloadPlayer(player);
+		VisibilityHandler.INSTANCE.update(player);
 
 		gamePlayer.getPlayer().sendMessage(CC.SEC + "You are no longer spectating the game.");
 
