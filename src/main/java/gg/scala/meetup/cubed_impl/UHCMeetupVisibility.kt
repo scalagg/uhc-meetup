@@ -17,7 +17,7 @@ object UHCMeetupVisibility : VisibilityAdapter
     override fun getAction(toRefresh: Player, refreshFor: Player): VisibilityAction
     {
         val viewer = Meetup.instance.playerHandler.getByPlayer(refreshFor)
-        val target = Meetup.instance.playerHandler.getByPlayer(refreshFor)
+        val target = Meetup.instance.playerHandler.getByPlayer(toRefresh)
 
         if (gameHandler.spectators.contains(target) && !gameHandler.spectators.contains(viewer))
         {
