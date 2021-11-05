@@ -75,13 +75,13 @@ public class ScoreboardProvider extends ScoreboardAdapter {
 		}
 
 		element.add("");
-		element.add(CC.SEC + "www.pvp.bar");
+		element.add(CC.PRI + "www.pvp.bar");
 		element.add(CC.GRAY + CC.S + "-------------------");
 	}
 
 	@NotNull
 	@Override
 	public String getTitle(@NotNull Player player) {
-		return CC.B_PRI + "Bar " + CC.GRAY + "❘" + CC.WHITE + " Meetup";
+		return "UHC Meetup";
 	}
 }
