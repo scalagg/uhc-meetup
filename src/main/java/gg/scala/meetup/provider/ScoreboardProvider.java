@@ -82,6 +82,6 @@ public class ScoreboardProvider extends ScoreboardAdapter {
 	@NotNull
 	@Override
 	public String getTitle(@NotNull Player player) {
-		return "UHC Meetup";
+		return CC.B_PRI + "UHC Meetup";
 	}
 }
